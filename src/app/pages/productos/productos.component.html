@@ -1,0 +1,123 @@
+<app-sidebar></app-sidebar>
+<p style="margin-left: 64px;"></p>
+<div style="margin-left:0px;">
+  <div class="container">
+    <button type="button" class="btn btn-primary btn-lg estiloCaja caja1" (click)="irListaProductos()" >Ver lista de productos</button>
+    <button type="button" class="btn btn-success btn-lg estiloCaja" (click)="irAgregarProductos()">Agregar producto</button>
+  </div>
+    <div>
+    <table *ngIf="AgregarProductos == false" class="table container table-bordered tb  table-hover ">
+        <thead >
+          <tr>
+            <th scope="col"><p style="text-align: center;">Codigo</p></th>
+            <th scope="col"><p style="text-align: center;">Nombre</p></th>
+            <th scope="col"><p style="text-align: center;">Descripcion</p></th>
+            <th scope="col"><p style="text-align: center;">Imagen</p></th>
+            <th scope="col"><p style="text-align: center;">Categoria</p></th>
+            <th scope="col"><p style="text-align: center;">Opciones</p></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let elementos of listaProductos; index as i">
+            <th scope="row"><p class="tabla">{{ elementos.CodProducto }}</p></th>
+            <td ><p class="tabla">{{ elementos.NomProducto}}</p></td>
+            <td><p class="tabla">{{elementos.Descripcion}}</p></td>
+            <td><img src="{{elementos.Imagen}}" class="img-thumbnail img" style="width:100px;margin-left: 30px;" alt="..."></td>
+            <td><p class="tabla">{{elementos.Categoria}}</p></td>
+            <td class="d-flex justify-content-center">
+                <button type="button" class="btn btn-warning btn1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="capturarProductoEditar(i)">Editar</button>
+                <button type="button" class="btn btn-danger btn2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="capturarIndice(i)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <!--Formulario-->
+      <div class="container  formulario border border-success p-5 mb-2" *ngIf="AgregarProductos == true">
+        <form class="row g-3" [formGroup]="productosFormulario">
+          <div class="col-md-4">
+            <label for="validationDefault01" class="form-label">Codigo</label>
+            <input type="text" class="form-control" id="validationDefault01" required formControlName="CodProducto">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="NomProducto">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Descripcion</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="Descripcion">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Url Imagen</label>
+            <input type="text" class="form-control" id="validationDefault02"required formControlName="Imagen">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Categoria</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="Categoria">
+          </div>
+          <div class="col-12">
+            <button class="btn estiloCaja2 btn-success" (click)="agrearProductoFormulario()">Agregar nuevo procucto</button>
+          </div>
+        </form>
+      </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar eliminicacion de datos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro de eliminar este producto?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminarProducto()" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label  class="form-label" >Codigo</label>
+            <input disabled type="text" class="form-control" required [(ngModel)] ="this.productoVacioEditar.CodProducto">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Nombre</label>
+            <input type="text" class="form-control" required [(ngModel)] ="this.productoVacioEditar.NomProducto">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Descripcion</label>
+            <input type="text" class="form-control"  required [(ngModel)] ="this.productoVacioEditar.Descripcion">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Url Imagen</label>
+            <input type="text" class="form-control" required [(ngModel)] ="this.productoVacioEditar.Imagen">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Categoria</label>
+            <input type="text" class="form-control" required [(ngModel)] ="this.productoVacioEditar.Categoria">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="editarProducto()">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

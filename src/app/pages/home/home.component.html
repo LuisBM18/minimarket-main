@@ -1,0 +1,122 @@
+<app-sidebar></app-sidebar>
+<p style="margin-left: 64px;"></p>
+<div style="margin-left:0px;">
+  <div class="container">
+    <button type="button" class="btn btn-info btn-lg estiloCaja caja1" (click)="irListaVentas()" >Ver lista de Ventas</button>
+    <button type="button" class="btn btn-success btn-lg estiloCaja" (click)="irAgregarVentas()">Agregar Ventas</button>
+  </div>
+    <div>
+    <table *ngIf="AgregarVenta == false" class="table container table-bordered tb  table-hover ">
+        <thead >
+          <tr>
+            <th scope="col"><p style="text-align: center;">Codigo</p></th>
+            <th scope="col"><p style="text-align: center;">Codigo Cliente</p></th>
+            <th scope="col"><p style="text-align: center;">Codigo Trabajador</p></th>
+            <th scope="col"><p style="text-align: center;">Fecha</p></th>
+            <th scope="col"><p style="text-align: center;">Tipo Comprobante</p></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let elementos of listaVentas; index as i">
+            <th scope="row"><p class="tabla">{{ elementos.CodVenta}}</p></th>
+            <td ><p class="tabla">{{ elementos.CodCliente}}</p></td>
+            <td><p class="tabla">{{elementos.CodTrabajador}}</p></td>
+            <td><p class="tabla">{{elementos.Fecha}}</p></td>
+            <td><p class="tabla">{{elementos.TipoComprobante}}</p></td>
+            <td class="d-flex justify-content-center">
+                <button type="button" class="btn btn-warning btn1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="capturarVentaEditar(i)">Editar</button>
+                <button type="button" class="btn btn-danger btn2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="capturarIndice(i)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <!--Formulario-->
+      <div class="container  formulario border border-success p-5 mb-2" *ngIf="AgregarVenta == true">
+        <form class="row g-3" [formGroup]="ventasFormulario">
+          <div class="col-md-4">
+            <label for="validationDefault01" class="form-label">Codigo</label>
+            <input type="text" class="form-control" id="validationDefault01" required formControlName="CodVenta">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Codigo Cliente</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="CodCliente">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Codigo Trabajador</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="CodTrabajador">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Fecha</label>
+            <input type="text" class="form-control" id="validationDefault02"required formControlName="Fecha">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Tipo Comprobante</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="TipoComprobante">
+          </div>
+          <div class="col-12">
+            <button class="btn estiloCaja2 btn-success" (click)="agregarVentaFormulario()">Agregar nueva venta</button>
+          </div>
+        </form>
+      </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar eliminicacion de datos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro de eliminar esta venta?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminarVenta()" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar venta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label  class="form-label" >Codigo</label>
+            <input disabled type="text" class="form-control" required [(ngModel)] ="this.ventaVacioEditar.CodVenta">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Codigo Cliente</label>
+            <input type="text" class="form-control" required [(ngModel)] ="this.ventaVacioEditar.CodCliente">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Codigo Trabajador</label>
+            <input type="text" class="form-control"  required [(ngModel)] ="this.ventaVacioEditar.CodTrabajador">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Fecha</label>
+            <input type="text" class="form-control" required [(ngModel)] ="this.ventaVacioEditar.Fecha">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Tipo Comprobante</label>
+            <input type="text" class="form-control" required [(ngModel)] ="this.ventaVacioEditar.TipoComprobante">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="editarVenta()">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

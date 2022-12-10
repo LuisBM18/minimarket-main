@@ -1,0 +1,133 @@
+<app-sidebar></app-sidebar>
+<p style="margin-left: 64px;"></p>
+<div style="margin-left:0px;">
+  <div class="container">
+    <button type="button" class="btn btn-primary btn-lg estiloCaja caja1" (click)="irListaDetalleVentas()" >Ver lista de detalles ventas</button>
+    <button type="button" class="btn btn-success btn-lg estiloCaja" (click)="irAgregarDetalleVentas()">Agregar detalles ventas</button>
+  </div>
+    <div>
+    <table *ngIf="AgregarDetalleVenta == false" class="table container table-bordered tb  table-hover ">
+        <thead >
+          <tr>
+            <th scope="col"><p style="text-align: center;">Codigo</p></th>
+            <th scope="col"><p style="text-align: center;">Codigo Venta</p></th>
+            <th scope="col"><p style="text-align: center;">Codigo detalle producto</p></th>
+            <th scope="col"><p style="text-align: center;">Cantidad</p></th>
+            <th scope="col"><p style="text-align: center;">Precio Venta</p></th>
+            <th scope="col"><p style="text-align: center;">Descuento</p></th>
+            <th scope="col"><p style="text-align: center;">Opciones</p></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let elementos of listaDetalleVentas index as i">
+            <th scope="row"><p class="tabla">{{ elementos.CodDetalleVenta}}</p></th>
+            <td ><p class="tabla">{{ elementos.CodVenta}}</p></td>
+            <td><p class="tabla">{{elementos.CodDetalleProducto}}</p></td>
+            <td><p class="tabla">{{elementos.Cantidad}}</p></td>
+            <td><p class="tabla">{{elementos.PrecioVenta}}</p></td>
+            <td><p class="tabla">{{elementos.Descuento}}</p></td>
+            <td class="d-flex justify-content-center">
+                <button type="button" class="btn btn-warning btn1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="capturarDetalleVentaEditar(i)">Editar</button>
+                <button type="button" class="btn btn-danger btn2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="capturarIndice(i)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <!--Formulario-->
+      <div class="container  formulario border border-success p-5 mb-2" *ngIf="AgregarDetalleVenta == true">
+        <form class="row g-3" [formGroup]="detallesVentasFormulario">
+          <div class="col-md-4">
+            <label for="validationDefault01" class="form-label">Codigo</label>
+            <input type="text" class="form-control" id="validationDefault01" required formControlName="CodDetalleVenta">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Codigo venta</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="CodVenta">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Codigo detalle producto</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="CodDetalleProducto">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Cantidad</label>
+            <input type="text" class="form-control" id="validationDefault02"required formControlName="Cantidad">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Precio venta</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="PrecioVenta">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Descuento</label>
+            <input type="text" class="form-control" id="validationDefault02" required formControlName="Descuento">
+          </div>
+          <div class="col-12">
+            <button class="btn estiloCaja2 btn-success" (click)="agregarDetalleVentaFormulario()">Agregar Detalle venta</button>
+          </div>
+        </form>
+      </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar eliminicacion de datos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro de eliminar detalle venta?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminarDetalleVenta()" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar detalle producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label  class="form-label" >Codigo</label>
+            <input disabled type="text" class="form-control" required [(ngModel)]="this.detalleVentaVacioEditar.CodDetalleVenta">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Codigo Venta</label>
+            <input type="text" class="form-control" required [(ngModel)]="this.detalleVentaVacioEditar.CodVenta">
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Codigo detalle producto</label>
+            <input type="text" class="form-control"  required [(ngModel)]="this.detalleVentaVacioEditar.CodDetalleProducto">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Cantidad</label>
+            <input type="text" class="form-control" required [(ngModel)]="this.detalleVentaVacioEditar.Cantidad">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Precio venta</label>
+            <input type="text" class="form-control" required [(ngModel)]="this.detalleVentaVacioEditar.PrecioVenta">
+          </div>
+          <div class="col-md-4">
+            <label  class="form-label">Descuento</label>
+            <input type="text" class="form-control" required [(ngModel)]="this.detalleVentaVacioEditar.Descuento">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="editarDetalleVenta()">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

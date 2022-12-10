@@ -1,0 +1,60 @@
+<div class="area" *ngIf="token"></div><nav class="main-menu todo" *ngIf="token">
+    <ul *ngIf="token">
+        <li>
+            <a *ngIf="token" routerLink="/home">
+                <i class="fa fa-solid fa-shop fa-2x"></i>
+                <span class="nav-text">
+                    Ventas
+                </span>
+            </a>
+          
+        </li>
+        <li class="has-subnav">
+            <a *ngIf="token" routerLink="/productos">
+                <i class="fa fa-sharp fa-solid fa-cart-shopping fa-2x"></i>
+                <span class="nav-text">
+                    Productos
+                </span>
+            </a>
+            
+        </li>
+        <li class="has-subnav">
+            <a *ngIf="token" routerLink="/detalleProductos">
+               <i class="fa fa-list fa-2x"></i>
+                <span class="nav-text">
+                    Detalle de productos
+                </span>
+            </a>
+            
+        </li>
+        <li class="has-subnav">
+            <a *ngIf="token" routerLink="/detalleVentas">
+                <i class="fa fa-solid fa-circle-info fa-2x"></i>
+                <span class="nav-text">
+                    Detalle de venta
+                </span>
+            </a>
+           
+        </li>
+       
+        <li>
+            <a *ngIf="token != null" routerLink="/clientes">
+            <i class="fa fa-solid fa-users fa-2x"></i>
+                <span class="nav-text">
+                    Clientes
+                </span>
+            </a>
+        </li>
+    </ul>
+
+    <ul class="logout" (click)="logout()">
+        <li>
+           <a href="#" *ngIf="token">
+                 <i class="fa fa-power-off fa-2x"></i>
+                <span class="nav-text">
+                    Cerrar sesion
+                </span>
+            </a>
+        </li>  
+    </ul>
+</nav>
